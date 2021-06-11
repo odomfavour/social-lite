@@ -1,0 +1,22 @@
+{
+  "name": "social-lite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nuxtjs/auth-next": "^5.0.0-1602966760.822bc05",
+    "@nuxtjs/axios": "^5.12.3",
+    "apollo-server": "^2.19.0",
+    "bcryptjs": "^2.4.3",
+    "graphql": "^15.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.17",
+    "vue-tour": "^1.5.0"
+  }
+}

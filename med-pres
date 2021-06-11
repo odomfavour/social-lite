@@ -1,0 +1,235 @@
+<template>
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <h1 class="title">{{ $t('general.medical_prescription') }}</h1>
+          </div>
+        </div>
+        <b-row>
+          <b-col cols="12" sm="4">
+            <b-card v-b-modal.modal-prescription >
+              <b-card-text>
+                <b-row>
+                  <b-col> <b-link class="card-link text-primary font-weight-bold">{{ $t('general.log.send_patient') }}</b-link></b-col>
+                  <b-col class="text-right">
+                    <b-link href="#" circle class="card-link p-3">
+                      <b-avatar class="bg-light text-primary large">
+                        <svg width="77" height="77" viewBox="0 0 77 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle opacity="0.4" cx="38.5" cy="38.5" r="38.5" fill="#C9C4FF"/>
+                          <path d="M55.5247 21.4075L15.9624 32.1736C15.6523 32.258 15.3732 32.4302 15.1587 32.6695C14.9442 32.9088 14.8035 33.205 14.7534 33.5224C14.709 33.8293 14.751 34.1425 14.8747 34.4269C14.9985 34.7112 15.1992 34.9553 15.4541 35.1319L31.0965 45.2297L39.2979 61.9107C39.415 62.1437 39.5852 62.346 39.7947 62.5013C40.0043 62.6566 40.2473 62.7606 40.5043 62.8049C40.7614 62.8492 41.0252 62.8325 41.2746 62.7563C41.524 62.68 41.7521 62.5463 41.9404 62.3659C42.1339 62.1909 42.2837 61.9728 42.3775 61.7293L57.502 23.6198C57.6124 23.3335 57.6416 23.0224 57.5865 22.7206C57.5313 22.4188 57.394 22.138 57.1895 21.9093C56.9851 21.6805 56.7215 21.5127 56.4278 21.4241C56.134 21.3356 55.8216 21.3298 55.5247 21.4075ZM40.6566 57.0522L34.3947 44.5176L45.879 34.2537L43.6573 31.7679L32.1731 42.0318L20.4177 34.4069L53.17 25.5017L40.6566 57.0522Z" fill="#382F90"/>
+                        </svg>
+                      </b-avatar>
+                    </b-link>
+                  </b-col>
+                </b-row>
+              </b-card-text>
+            </b-card>
+          </b-col>
+        </b-row>
+        <b-row>
+          <section class="mt-5 col-12">
+              <h5 class="title">{{ $t('general.previous_prescription') }}</h5>
+            <client-only>
+              <b-table :items="items" responsive hover :fields="fields" caption-top>
+                <template #cell(action)="">
+                  <nuxt-link to="/doctors/services/prescription-slip">View</nuxt-link>
+                </template>
+              </b-table>
+            </client-only>
+          </section>
+          <div class="overflow-auto d-flex justify-content-center w-100">
+              <b-pagination v-model="currentPage" class="mt-5" :total-rows="paginationRows"></b-pagination>
+          </div>
+        </b-row>
+        <b-modal id="modal-prescription" hide-footer size="lg" title="Send Patient a Prescription">
+          <b-form class="px-2">
+            <b-row class="mt-3 mb-3">
+              <b-col cols="12" sm="4">
+                <b-form-group
+                  label="Patient Name"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+                    v-model="form.name"
+                    type="text"
+                    required
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col cols="12" sm="4">
+                <b-form-group
+                  label="Date of Prescription:"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+                    v-model="form.date"
+                    type="date"
+                    required
+                    placeholder="Date of Prescription"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col cols="12" sm="4">
+                <b-form-group
+                  label="Patient Age:"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+                    type="number"
+                    required
+                    placeholder="Patient Age"
+                  />
+                </b-form-group>
+              </b-col>
+            </b-row>
+                <hr>
+            <b-row class="mb-3">
+              <b-col cols="12" sm="6">
+                <b-form-group
+                  label="Medical Group e.g Antibiotic Analgesic etc"
+                  label-for="input-1"
+                >
+                  <b-form-select
+                    id="input-3"
+                    :options="medicalGroup"
+                    required
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12" sm="6">
+                <b-form-group
+                  label="Name of Medication (Generic)"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+                    type="text"
+                    required
+                  />
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row class="mb-3">
+              <b-col cols="12" sm="6">
+                <b-form-group
+                  label="Dose of medication e.g 500mg"
+                  label-for="input-1"
+                >
+                  <b-input-group  class="mb-2 mr-sm-2 mb-sm-0" append="mg">
+                    <b-input id="inline-form-input-username" placeholder=""></b-input>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12" sm="6">
+                <b-form-group
+                  label="Quantity of Medication e.g 2 Tab, 10ml, 2 drops:"
+                  label-for="input-1"
+                >
+                  <b-input-group  class="mb-2 mr-sm-2 mb-sm-0" >
+                    <b-input type="number" id="inline-form-input-username" placeholder=""></b-input>
+                     <b-form-select  :options="quantityMed" style="flex:0.1;background-color: #e9ecef; " class="pd-2">Tabs</b-form-select>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row class="mb-3">
+              <b-col cols="12" sm="6">
+                <b-form-group
+                  label="Frequency of medication e.g Every 8 hours, daily, weekly"
+                  label-for="input-1"
+                >
+                  <b-input-group  class="mb-2 mr-sm-2 mb-sm-0">
+                    <b-input id="inline-form-input-username" placeholder=""></b-input>
+                    <b-form-select  :options="frequencyMed" style="flex:0.1;background-color: #e9ecef; " class="pd-2">Tabs</b-form-select>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12" sm="6">
+                <b-form-group
+                  label="Duration of medication e.g 1 week, 1 month, 3 days"
+                  label-for="input-1"
+                >
+                  <b-input-group  class="mb-2 mr-sm-2 mb-sm-0" >
+                    <b-input id="inline-form-input-username" placeholder=""></b-input>
+                    <b-form-select  :options="duration" style="flex:0.1;background-color: #e9ecef; " class="pd-2">Tabs</b-form-select>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row class="mb-3">
+            <b-col cols="12" sm="6">
+                <b-form-group
+                  label="Route of administration e.g Orally, intravenous"
+                  label-for="input-1"
+                >
+                <b-input id="inline-form-input-username" placeholder=""></b-input>
+                </b-form-group>
+
+              </b-col>
+            </b-row>
+            <b-form-group
+                  label="Special Note"
+                  label-for="input-1"
+                >
+            <b-form-textarea
+              id="textarea-rows"
+              rows="8"
+            ></b-form-textarea>
+            </b-form-group>
+            <hr>
+            <div class="text-center mt-3 mb-4">
+              <b-link to="/"  class="btn btn-outline-primary" type="button">{{ $t('buttons.add_medication') }} <i class="fa fa-plus-circle"></i></b-link>
+            </div>
+            <client-only>
+            <b-table :items="patientPrescription" class="mt-3" responsive hover :fields="prescription" caption-top></b-table>
+            </client-only>
+              <div class="text-center">
+              <b-button type="submit"  variant="primary">{{ $t('buttons.submit') }}</b-button>
+            </div>
+          </b-form>
+        </b-modal>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  layout: 'dashboard',
+  data() {
+    return {
+      quantityMed:["Tabs","ml","drop"],
+      frequencyMed:["hours","daily","weekly"],
+      duration:["month","week","day"],
+      fields: ['Patient', 'Date', 'Time', 'Patient_wants_medication_delivered', 'action'],
+      items: [
+        { Patient: 'Jephtah Paul', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+        { Patient: 'Dickerson', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+        { Patient: 'Dickerson', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+        { Patient: 'Dickerson', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+        { Patient: 'Dickerson', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+        { Patient: 'Dickerson', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+        { Patient: 'Dickerson', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+        { Patient: 'Dickerson', Date: 'May 2, 2020', Time: '6:30pm', Patient_wants_medication_delivered: 'Yes', action: 'view'  },
+      ],
+      prescription:['Paracetamol', '500mg', '2 tablets daily', '1 week', 'Oral', 'Edit', 'Delete'],
+      patientPrescription:[{
+
+      }],
+      paginationRows: 100,
+      currentPage: 3,
+      form: {
+        email: '',
+        name: '',
+      },
+      medicalGroup: ['Antibiotics', 'Analgesic', 'Antibiotics', 'Analgesic'],
+      show: true
+    }
+  }
+}
+</script>

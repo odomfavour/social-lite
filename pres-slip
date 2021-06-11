@@ -1,0 +1,139 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="title">{{ $t('patient.slip.title') }}</h1>
+      </div>
+    </div>
+
+    <div class="p-5" style="background-color:#F7E8D9; background-repeat: no-repeat; background-size:cover">
+      <b-row>
+        <b-col lg="5" md="5" sm="6">
+          <div class="d-flex">
+            <div>
+              <b-img v-bind="{ blank: true, blankColor: '#777', width: 50, height: 50, class: 'm1' }" rounded="circle" alt="DEMO"></b-img>
+            </div>
+            <div class="ml-1">
+              <h4 class="m-0 font-weight-bold">Jephtah Paul</h4>
+              <p class="text-muted m-0"> Patient</p>
+            </div>
+          </div>
+        </b-col>
+        <b-col lg="3" md="3" sm="6">
+          <p class="text-muted m-0">{{ $t('patient.slip.date') }}</p>
+          <h5 class="m-0 font-weight-bold">May 2, 2020</h5>
+        </b-col>
+        <b-col lg="2" md="2" sm="6">
+          <p class="text-muted m-0">{{ $t('patient.slip.time') }}</p>
+          <h5 class="m-0 font-weight-bold">6:00PM</h5>
+        </b-col>
+      </b-row>
+    </div>
+
+    <div class="card p-5 mt-5">
+      <b-row>
+        <b-col lg="4">
+          <p class="m-0">{{ $t('patient.slip.med_group') }}</p>
+          <p class="m-0 font-weight-bold">Antibiotics</p>
+
+        </b-col>
+        <b-col lg="4">
+          <p class="m-0">{{ $t('patient.slip.med_generic') }}</p>
+          <p class="m-0 font-weight-bold">Paracetamol</p>
+
+        </b-col>
+      </b-row>
+      <b-row class="border-bottom border-top mt-3 mb-3 pb-3 pt-3">
+        <b-col lg="4" md="4" class="mb-3">
+          <p class="m-0">{{ $t('patient.slip.dose') }}</p>
+          <p class="m-0 font-weight-bold">500mg</p>
+        </b-col>
+        <b-col lg="4" md="4" class="mb-3">
+          <p class="m-0">{{ $t('patient.slip.quantity') }}</p>
+          <p class="m-0 font-weight-bold">2 Tablets</p>
+        </b-col>
+        <b-col lg="4" md="4" class="mb-3">
+          <p class="m-0">{{ $t('patient.slip.med_freq') }}</p>
+          <p class="m-0 font-weight-bold">Every 8 hours</p>
+        </b-col>
+        <b-col lg="4" md="4" class="mb-3">
+          <p class="m-0">{{ $t('patient.slip.duration') }}</p>
+          <p class="m-0 font-weight-bold">1 Week</p>
+        </b-col>
+        <b-col lg="4" md="4"  class="mb-3">
+          <p class="m-0">{{ $t('patient.slip.route') }}</p>
+          <p class="m-0 font-weight-bold">Orally</p>
+        </b-col>
+      </b-row>
+      <b-row class="border-bottom mb-5 mt-3 pb-3">
+        <b-col lg="12">
+          <p class="m-0">{{ $t('patient.slip.title') }}</p>
+          <p class="m-0 font-weight-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum dolores optio nemo soluta, hic reprehenderit officia commodi voluptas inventore quidem animi? Fuga in alias quod eveniet voluptatum facilis voluptatibus doloremque.</p>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col lg="3" class="mb-2">
+          <b-button variant="outline-success"><i class="fa fa-download"></i> {{ $t('buttons.download') }}</b-button>
+        </b-col>
+        <b-col lg="3" class="mb-2">
+          <b-button variant="outline-warning"><i class="fa fa-print"></i> {{ $t('buttons.print') }}</b-button>
+        </b-col>
+      </b-row>
+    </div>
+    <client-only>
+      
+        <b-table-simple class="mt-5">
+          <b-tr>
+            <b-th>Name of Medication</b-th>
+            <b-th>Dose</b-th>
+            <b-th>Quantity</b-th>
+            <b-th>Frequency</b-th>
+            <b-th>Duration</b-th>
+            <b-th>Mode</b-th>
+            <b-th></b-th>
+          </b-tr>
+          <!-- <div class="card"> -->
+            <b-tr v-for="(prescription, index) in prescriptions" :key="index" style="background: #fff;">
+              <b-td>
+                {{prescription.medication}}
+              </b-td>
+              <b-td>
+                {{prescription.dose}}
+              </b-td>
+              <b-td>
+                {{prescription.quantity}}
+              </b-td>
+              <b-td>
+                {{prescription.frequency}}
+              </b-td>
+              <b-td>
+                {{prescription.duration}}
+              </b-td>
+              <b-td>
+                {{prescription.mode}}
+              </b-td>
+              <b-td>
+                <nuxt-link to="#" class="font-weight-bold">View Note</nuxt-link>
+              </b-td>
+            </b-tr>
+          <!-- </div> -->
+          
+        </b-table-simple>
+      
+    </client-only>
+  </div>
+</template>
+
+<script>
+  export default {
+    layout: 'dashboard',
+    data(){
+      return{
+        prescriptions:[
+          { medication: 'Paracetamol', dose: '500mg', quantity: '2Tablets', frequency: 'Every 8 hours', duration: '1 week', mode: 'Orally', _: "" },
+
+        ]
+      }
+    }
+  }
+</script>
